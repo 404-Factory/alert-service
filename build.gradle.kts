@@ -1,0 +1,29 @@
+plugins {
+    id("com.factory.spring-application-conventions")
+    id("com.factory.maven-consumer-conventions")
+}
+
+version = "1.0.0"
+
+dependencies {
+    // common modules
+    implementation("com.factory.common:contract:1.0.1")
+
+    // Spring Web
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
+    // Spring Data JPA
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    // Spring Boot Actuator
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+    // Lombok
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
+
+    // Test
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+}
