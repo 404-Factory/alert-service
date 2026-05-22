@@ -13,6 +13,19 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/alerts")
+@CrossOrigin(
+        originPatterns = {
+                "http://localhost:*",
+                "http://127.0.0.1:*"
+        },
+        allowedHeaders = "*",
+        methods = {
+                RequestMethod.GET,
+                RequestMethod.POST,
+                RequestMethod.PATCH,
+                RequestMethod.OPTIONS
+        }
+)
 @RequiredArgsConstructor
 public class AlertController {
 
@@ -60,14 +73,16 @@ public class AlertController {
 
     // 전체 읽음 처리
     @PatchMapping("/read-all")
-    public void readAllAlerts() {
+    public ResponseEntity<Void> readAllAlerts() {
         alertService.readAllAlerts();
+        return ResponseEntity.noContent().build();
     }
 
     // 단건 읽음 처리
     @PatchMapping("/{alertId}/read")
-    public void readAlert(@PathVariable Long alertId) {
+    public ResponseEntity<Void> readAlert(@PathVariable Long alertId) {
         alertService.readAlert(alertId);
+        return ResponseEntity.noContent().build();
     }
 
     // 알림 상세 조회

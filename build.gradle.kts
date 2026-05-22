@@ -21,6 +21,9 @@ dependencies {
     // Spring Boot Actuator
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
+    // MariaDB Driver
+    runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.3.3")
+
     // Lombok
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
