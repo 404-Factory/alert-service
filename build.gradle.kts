@@ -15,6 +15,9 @@ dependencies {
     // Spring Data JPA
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
+    // Spring Data Redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
     // Spring Boot Actuator
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
@@ -25,5 +28,4 @@ dependencies {
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
 }
