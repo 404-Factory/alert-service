@@ -34,12 +34,12 @@ public class AlertController {
     // 알림 목록 조회
     @GetMapping
     public Page<AlertResponse> getAlerts(
-            @RequestParam(required = false, defaultValue = "ALL") String category,
-            @RequestParam(required = false) Boolean isRead,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+         @RequestParam(required = false, defaultValue = "ALL") String severity,
+         @RequestParam(required = false) Boolean isRead,
+         @RequestParam(defaultValue = "0") int page,
+         @RequestParam(defaultValue = "10") int size
     ) {
-        return alertService.getAlerts(category, isRead, page, size);
+        return alertService.getAlerts(severity, isRead, page, size);
     }
 
     // 알림 생성
@@ -65,7 +65,7 @@ public class AlertController {
         return ResponseEntity.ok(AlertResponse.from(alert));
     }
 
-    // 미확인 알림 수 조회
+    // Header 알림 카운트 조회
     @GetMapping("/unread-count")
     public UnreadCountResponse getUnreadCount() {
         return alertService.getUnreadCount();

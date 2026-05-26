@@ -22,36 +22,36 @@ public class AlertService {
     private final AlertDuplicateService alertDuplicateService;
 
     // 알림 목록 조회
-    public Page<AlertResponse> getAlerts(String category, Boolean isRead, int page, int size) {
+    public Page<AlertResponse> getAlerts(String severity, Boolean isRead, int page, int size) {
         Pageable pageable = PageRequest.of(
                 page,
                 size,
                 Sort.by(Sort.Direction.DESC, "createdTime")
         );
 
-        String severity = convertCategoryToSeverity(category);
+        String severityCondition = convertSeverity(severity);
 
-        return alertRepository.findAlerts(severity, isRead, pageable)
+        return alertRepository.findAlerts(severityCondition, isRead, pageable)
                 .map(AlertResponse::from);
     }
 
-    // category는 화면 필터값, severity는 DB 조회 조건
-    private String convertCategoryToSeverity(String category) {
-        if (category == null || category.equalsIgnoreCase("ALL")) {
+    // severity는 알림 심각도 필터값
+    private String convertSeverity(String severity) {
+        if (severity == null || severity.equalsIgnoreCase("ALL")) {
             return null;
         }
 
         if (
-                category.equalsIgnoreCase("WARNING") ||
-                category.equalsIgnoreCase("CRITICAL")
+                severity.equalsIgnoreCase("WARNING") ||
+                severity.equalsIgnoreCase("CRITICAL")
         ) {
-            return category.toUpperCase();
+            return severity.toUpperCase();
         }
 
-        throw new IllegalArgumentException("알림 카테고리는 ALL, WARNING, CRITICAL만 가능합니다.");
+        throw new IllegalArgumentException("알림 심각도는 ALL, WARNING, CRITICAL만 가능합니다.");
     }
 
-    // 미확인 알림 수 조회
+    // Header 알림 카운트 조회
     public UnreadCountResponse getUnreadCount() {
         long totalCount = alertRepository.countByIsReadFalse();
         long warningCount = alertRepository.countByIsReadFalseAndSeverity("WARNING");
