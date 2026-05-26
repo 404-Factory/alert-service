@@ -21,6 +21,9 @@ public class Alert {
     @Column(name = "log_id")
     private Long logId;
 
+    @Column(name = "equipment_id", length = 100)
+    private String equipmentId;
+
     @Column(name = "title", length = 200, nullable = false)
     private String title;
 

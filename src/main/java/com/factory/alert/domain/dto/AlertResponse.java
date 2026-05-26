@@ -12,6 +12,7 @@ public class AlertResponse {
 
     private Long alertId;
     private Long logId;
+    private String equipmentId;
     private String title;
     private String message;
     private Boolean isRead;
@@ -24,6 +25,7 @@ public class AlertResponse {
         return AlertResponse.builder()
                 .alertId(alert.getAlertId())
                 .logId(alert.getLogId())
+                .equipmentId(alert.getEquipmentId())
                 .title(alert.getTitle())
                 .message(alert.getMessage())
                 .isRead(alert.getIsRead())

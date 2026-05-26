@@ -131,6 +131,7 @@ public class AlertService {
 
         Alert alert = Alert.builder()
                 .logId(logId)
+                .equipmentId(equipmentId)
                 .title(title)
                 .message(message)
                 .severity(severity.toUpperCase())
