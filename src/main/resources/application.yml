@@ -3,15 +3,7 @@ server:
 
 spring:
   application:
-    name: notification-service
+    name: alert-service
+
   profiles:
     default: local
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health, info
-  endpoint:
-    health:
-      show-details: never
