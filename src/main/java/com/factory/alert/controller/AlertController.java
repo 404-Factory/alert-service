@@ -34,17 +34,18 @@ public class AlertController {
     // 알림 목록 조회
     @GetMapping
     public Page<AlertResponse> getAlerts(
-         @RequestParam(required = false, defaultValue = "ALL") String severity,
-         @RequestParam(required = false) Boolean isRead,
-         @RequestParam(defaultValue = "0") int page,
-         @RequestParam(defaultValue = "10") int size
+            @RequestParam(required = false, defaultValue = "ALL") String severity,
+            @RequestParam(required = false) Boolean isRead,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
     ) {
         return alertService.getAlerts(severity, isRead, page, size);
     }
 
     // 알림 생성
-    // CAUTION은 ALERT 생성 X
-    // WARNING, CRITICAL만 ALERT 생성
+    // 단일 CAUTION은 ALERT 생성 X
+    // 같은 설비에서 다른 센서 이상이 최근 5분 내 동시에 발생한 경우 WARNING으로 상향 생성
+    // WARNING, CRITICAL은 ALERT 생성
     @PostMapping
     public ResponseEntity<?> createAlert(@RequestBody AlertCreateRequest request) {
         Alert alert = alertService.createAlert(
@@ -59,7 +60,7 @@ public class AlertController {
         );
 
         if (alert == null) {
-            return ResponseEntity.ok("CAUTION은 ALERT를 생성하지 않습니다.");
+            return ResponseEntity.ok("단일 CAUTION은 ALERT를 생성하지 않습니다.");
         }
 
         return ResponseEntity.ok(AlertResponse.from(alert));
@@ -69,6 +70,12 @@ public class AlertController {
     @GetMapping("/unread-count")
     public UnreadCountResponse getUnreadCount() {
         return alertService.getUnreadCount();
+    }
+
+    // 설비별 미확인 알림 심각도 조회
+    @GetMapping("/equipment/{equipmentId}/unread-severity")
+    public ResponseEntity<String> getUnreadEquipmentAlertSeverity(@PathVariable String equipmentId) {
+        return ResponseEntity.ok(alertService.getUnreadEquipmentAlertSeverity(equipmentId));
     }
 
     // 전체 읽음 처리

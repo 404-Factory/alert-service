@@ -30,4 +30,7 @@ public interface AlertRepository extends JpaRepository<Alert, Long> {
     @Modifying
     @Query("UPDATE Alert a SET a.isRead = true WHERE a.isRead = false")
     int markAllAsRead();
+
+    // 설비별 미확인 알림 심각도 판단용
+    boolean existsByEquipmentIdAndSeverityAndIsReadFalse(String equipmentId, String severity);
 }
