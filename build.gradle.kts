@@ -15,8 +15,14 @@ dependencies {
     // Spring Data JPA
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
+    // Spring Data Redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
     // Spring Boot Actuator
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+    // MariaDB Driver
+    runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.3.3")
 
     // Lombok
     compileOnly("org.projectlombok:lombok")
@@ -25,5 +31,4 @@ dependencies {
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
 }
