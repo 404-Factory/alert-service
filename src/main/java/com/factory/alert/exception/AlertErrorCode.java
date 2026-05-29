@@ -1,15 +1,15 @@
-package com.factory.notification.exception;
+package com.factory.alert.exception;
 
 import com.factory.common.core.exception.ErrorCode;
 
-public enum NotificationErrorCode implements ErrorCode {
+public enum AlertErrorCode implements ErrorCode {
     ;
 
     private final int status;
     private final String code;
     private final String message;
 
-    NotificationErrorCode(int status, String code, String message) {
+    AlertErrorCode(int status, String code, String message) {
         this.status = status;
         this.code = code;
         this.message = message;
