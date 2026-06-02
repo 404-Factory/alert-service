@@ -4,18 +4,12 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://RDS_HOST:3306/notification_db?sslMode=trust
-    username: root
-    password: 12345678
-
-  jpa:
-    hibernate:
-      ddl-auto: ${JPA_DDL_AUTO:update}
-    show-sql: ${JPA_SHOW_SQL:true}
-    properties:
-      hibernate:
-        format_sql: ${JPA_FORMAT_SQL:true}
-        dialect: org.hibernate.dialect.MariaDBDialect
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:notification_db}?sslMode=trust
+    username: ${DB_USER:root}
+    password: ${DB_HOST:12345678}
+    hikari:
+      pool-name: notification-hikari-pool
+      connection-test-query: SELECT 1
 
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
@@ -28,4 +22,4 @@ spring:
       ack-mode: record
 
 server:
-  port: ${SERVER_PORT:8084}
+  port: 8080
