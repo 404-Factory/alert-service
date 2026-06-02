@@ -33,10 +33,10 @@ public class AlertRepositorySupportImpl implements AlertRepositorySupport {
     public long bulkUpdateAll(String status, String severity) {
         JPAUpdateClause clause = queryFactory.update(alert);
 
-        if(status != null) {
+        if (status != null) {
             clause.set(alert.status, AlertStatus.fromCode(status));
         }
-        if(severity != null) {
+        if (severity != null) {
             clause.set(alert.severity, AlertSeverity.fromCode(severity));
         }
         return clause.execute();
@@ -126,10 +126,7 @@ public class AlertRepositorySupportImpl implements AlertRepositorySupport {
 
     private NumberExpression<Long> warningCountExpr(List<AlertStatus> statuses) {
         return new CaseBuilder()
-            .when(
-                alert.status.in(statuses == null ? List.of(AlertStatus.values()) : statuses)
-                    .and(alert.severity.eq(AlertSeverity.WARNING))
-            )
+            .when(alert.severity.eq(AlertSeverity.WARNING))
             .then(1L)
             .otherwise(0L)
             .sumLong();
@@ -137,10 +134,7 @@ public class AlertRepositorySupportImpl implements AlertRepositorySupport {
 
     private NumberExpression<Long> criticalCountExpr(List<AlertStatus> statuses) {
         return new CaseBuilder()
-            .when(
-                alert.status.in(statuses == null ? List.of(AlertStatus.values()) : statuses)
-                    .and(alert.severity.eq(AlertSeverity.CRITICAL))
-            )
+            .when(alert.severity.eq(AlertSeverity.CRITICAL))
             .then(1L)
             .otherwise(0L)
             .sumLong();
