@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alert-service
+  namespace: alert
+  labels:
+    app: alert-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alert-service
+  template:
+    metadata:
+      labels:
+        app: alert-service
+    spec:
+      containers:
+        - name: alert-service
+          image: $IMAGE:$IMAGE_TAG
+          ports:
+            - containerPort: 8084
+          envFrom:
+            - secretRef:
+                name: rdb-secret
+          env:
+            - name: DB_NAME
+              value: "notification_db"
+            - name: DB_PORT
+              value: "3306"
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: "sigma-kafka-kafka-bootstrap.default.svc.cluster.local:9092"
+            - name: JPA_DDL_AUTO
+              value: "update"
+            - name: JPA_SHOW_SQL
+              value: "false"
+            - name: JPA_FORMAT_SQL
+              value: "false"
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+      restartPolicy: Always

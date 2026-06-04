@@ -5,8 +5,8 @@ spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:notification_db}?sslMode=trust
-    username: ${DB_USER:root}
-    password: ${DB_HOST:12345678}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:12345678}
     hikari:
       pool-name: notification-hikari-pool
       connection-test-query: SELECT 1
