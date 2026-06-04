@@ -4,18 +4,19 @@ spring:
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://${DB_HOST}:${DB_PORT:3306}/${DB_NAME:notification_db}?sslMode=trust
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:notification_db}?sslMode=trust
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:12345678}
 
-  jpa:
-    hibernate:
-      ddl-auto: ${JPA_DDL_AUTO:update}
-    show-sql: ${JPA_SHOW_SQL:true}
-    properties:
-      hibernate:
-        format_sql: ${JPA_FORMAT_SQL:true}
-        dialect: org.hibernate.dialect.MariaDBDialect
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: notification-service
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: record
 
 server:
-  port: ${SERVER_PORT:8084}
+  port: 8080
