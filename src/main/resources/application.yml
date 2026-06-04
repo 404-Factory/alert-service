@@ -7,6 +7,9 @@ spring:
     url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:notification_db}?sslMode=trust
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:12345678}
+    hikari:
+      pool-name: notification-hikari-pool
+      connection-test-query: SELECT 1
 
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
