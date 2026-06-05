@@ -47,6 +47,9 @@ dependencies {
     // MariaDB Driver
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.3.3")
 
+    // Dotenv
+    implementation("me.paulschwarz:spring-dotenv:4.0.0")
+
     // Lombok
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
