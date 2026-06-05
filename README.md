@@ -99,15 +99,11 @@ public class AlertController {
 ### 진행 예정 작업
 
 * 이상 감지 파트와 알림 생성 연동
-* `AlertUpdateRequest` 테스트 보강
-* 알림 중복 처리 고도화
-* Redis 기반 스팸 알림 방지
-
 ---
 
 ## 📌 브랜치
 
-`feature/alert-service`
+'dev' merge완료
 
 ---
 
