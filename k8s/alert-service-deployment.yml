@@ -36,6 +36,10 @@ spec:
               value: "false"
             - name: JPA_FORMAT_SQL
               value: "false"
+            - name: DB_MAX_POOL_SIZE
+              value: "5"
+            - name: DB_MIN_IDLE
+              value: "2"
           resources:
             limits:
               memory: "512Mi"
