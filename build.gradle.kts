@@ -61,6 +61,10 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testRuntimeOnly("com.h2database:h2")
     testImplementation("com.factory.common:contract:1.0.1")
+
+    // Dotenv
+    implementation("me.paulschwarz:spring-dotenv:4.0.0")
+
 }
 
 tasks.named<Test>("test") {
