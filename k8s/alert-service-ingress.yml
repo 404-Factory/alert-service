@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: alert-service
+  namespace: alert
+spec:
+  selector:
+    app: alert-service
+  ports:
+    - port: 8084
+      targetPort: 8080
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: alert-ingress
+  namespace: alert
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/group.name: sigma
+    alb.ingress.kubernetes.io/group.order: "3"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /api/alerts
+            pathType: Prefix
+            backend:
+              service:
+                name: alert-service
+                port:
+                  number: 8084
