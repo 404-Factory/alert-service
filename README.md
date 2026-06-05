@@ -47,20 +47,7 @@ public class AlertController {
     @PatchMapping("/{id}")
     public ResponseEntity<Void> updateAlert(...) { ... }
 }
-```
 
-### 3. 주의: 실제로 없는 API
-
-현재 백엔드에서는 다음 API가 구현되어 있지 않습니다.
-
-- `/api/alerts`
-- `/api/alerts/unread-count`
-- `/api/alerts/{alertId}/read`
-- `/api/alerts/read-all`
-- `/api/alerts/{alertId}` (base path `/api/v1/alerts` 사용)
-- `/api/alerts/from-anomaly`
-
----
 
 ## 🔧 API 상세 설명
 
@@ -96,23 +83,7 @@ public class AlertController {
 
 - 특정 알림의 상태를 변경합니다.
 
----
 
-## 🛠️ 실행 방법
-
-```bash
-cd notification-service
-./gradlew bootRun
-```
-
-Windows에서는:
-
-```bash
-cd notification-service
-./gradlew.bat bootRun
-```
-
----
 
 ## 🌱 현재 상태
 
