@@ -2,9 +2,9 @@ package com.factory.alert.infrastructure.repository;
 
 import com.factory.alert.dto.response.AlertResponse;
 import com.factory.alert.dto.response.CountResponse;
-import com.factory.alert.infrastructure.entity.QAlert;
 import com.factory.alert.infrastructure.enums.AlertSeverity;
 import com.factory.alert.infrastructure.enums.AlertStatus;
+import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -23,13 +23,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
+import static com.factory.alert.infrastructure.entity.QAlert.alert;
+
 @Repository
 @RequiredArgsConstructor
 public class AlertRepositorySupportImpl implements AlertRepositorySupport {
 
     private final JPAQueryFactory queryFactory;
-    private final QAlert alert = QAlert.alert;
 
+    @Override
     public long bulkUpdateAll(String status, String severity) {
         JPAUpdateClause clause = queryFactory.update(alert);
 
@@ -42,20 +44,12 @@ public class AlertRepositorySupportImpl implements AlertRepositorySupport {
         return clause.execute();
     }
 
-    public Page<AlertResponse> findWithCondition(String status, String severity,
+    @Override
+    public Page<AlertResponse> fetchAlertsWithCondition(String status, String severity,
         Pageable pageable) {
 
         JPAQuery<AlertResponse> query = queryFactory
-            .select(Projections.constructor(
-                AlertResponse.class,
-                alert.id,
-                alert.anomalyId,
-                alert.equipmentId,
-                alert.title,
-                alert.message,
-                alert.status.stringValue(),
-                alert.severity.stringValue()
-            ))
+            .select(getAlertResponseProjection())
             .from(alert)
             .where(
                 eqStatus(status),
@@ -84,7 +78,17 @@ public class AlertRepositorySupportImpl implements AlertRepositorySupport {
         );
     }
 
-    public CountResponse getCount(List<String> status) {
+    @Override
+    public AlertResponse fetchAlert(Long id) {
+        return queryFactory
+            .select(getAlertResponseProjection())
+            .from(alert)
+            .where(alert.id.eq(id))
+            .fetchOne();
+    }
+
+    @Override
+    public CountResponse fetchCountWithStatus(List<String> status) {
 
         List<AlertStatus> statuses = toStatuses(status);
 
@@ -112,6 +116,18 @@ public class AlertRepositorySupportImpl implements AlertRepositorySupport {
         return (statuses == null || statuses.isEmpty())
             ? null
             : alert.status.in(statuses);
+    }
+
+    private ConstructorExpression<AlertResponse> getAlertResponseProjection() {
+        return Projections.constructor(
+            AlertResponse.class,
+            alert.id,
+            alert.anomalyId,
+            alert.equipmentId,
+            alert.title,
+            alert.message,
+            alert.status.stringValue(),
+            alert.severity.stringValue());
     }
 
     private List<AlertStatus> toStatuses(List<String> status) {
