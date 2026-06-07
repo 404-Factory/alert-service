@@ -52,8 +52,8 @@ public class AlertRepositorySupportImpl implements AlertRepositorySupport {
             .select(getAlertResponseProjection())
             .from(alert)
             .where(
-                eqStatus(status),
-                eqSeverity(severity)
+                statusEq(status),
+                severityEq(severity)
             )
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize());
@@ -67,8 +67,8 @@ public class AlertRepositorySupportImpl implements AlertRepositorySupport {
             .select(alert.count())
             .from(alert)
             .where(
-                eqStatus(status),
-                eqSeverity(severity)
+                statusEq(status),
+                severityEq(severity)
             );
 
         return PageableExecutionUtils.getPage(
@@ -100,19 +100,19 @@ public class AlertRepositorySupportImpl implements AlertRepositorySupport {
                 criticalCountExpr(statuses)
             ))
             .from(alert)
-            .where(inStatus(statuses))
+            .where(statusIn(statuses))
             .fetchOne();
     }
 
-    private BooleanExpression eqStatus(String status) {
+    private BooleanExpression statusEq(String status) {
         return status != null ? alert.status.eq(AlertStatus.fromCode(status)) : null;
     }
 
-    private BooleanExpression eqSeverity(String severity) {
+    private BooleanExpression severityEq(String severity) {
         return severity != null ? alert.severity.eq(AlertSeverity.fromCode(severity)) : null;
     }
 
-    private BooleanExpression inStatus(List<AlertStatus> statuses) {
+    private BooleanExpression statusIn(List<AlertStatus> statuses) {
         return (statuses == null || statuses.isEmpty())
             ? null
             : alert.status.in(statuses);
