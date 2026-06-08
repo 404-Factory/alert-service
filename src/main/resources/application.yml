@@ -1,17 +1,25 @@
-server:
-  port: 8080
-
 spring:
   application:
     name: notification-service
-  profiles:
-    default: local
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health, info
-  endpoint:
-    health:
-      show-details: never
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:notification_db}?sslMode=trust
+    username: ${DB_USER:root}
+    password: ${DB_HOST:12345678}
+    hikari:
+      pool-name: notification-hikari-pool
+      connection-test-query: SELECT 1
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: notification-service
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: record
+
+server:
+  port: 8080

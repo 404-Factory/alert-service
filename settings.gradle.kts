@@ -6,12 +6,10 @@ pluginManagement {
         maven {
             url = uri("https://maven.pkg.github.com/404-Factory/build-logic")
             credentials {
-                username = providers.gradleProperty("gpr.user")
-                    .orElse(System.getenv("GITHUB_ACTOR"))
-                    .orNull ?: error("GITHUB_ACTOR must be set in environment")
-                password = providers.gradleProperty("gpr.token")
-                    .orElse(System.getenv("GITHUB_TOKEN"))
-                    .orNull ?: error("GITHUB_TOKEN must be set in environment")
+                username = System.getenv("GITHUB_ACTOR") ?: providers.gradleProperty("gpr.user").orNull
+                        ?: error("GITHUB_ACTOR must be set in environment")
+                password = System.getenv("GITHUB_TOKEN") ?: providers.gradleProperty("gpr.token").orNull
+                        ?: error("GITHUB_TOKEN must be set in environment")
             }
         }
     }
@@ -22,4 +20,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "notification-service"
+rootProject.name = "alert-service"
