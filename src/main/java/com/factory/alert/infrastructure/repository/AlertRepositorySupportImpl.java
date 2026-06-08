@@ -127,7 +127,10 @@ public class AlertRepositorySupportImpl implements AlertRepositorySupport {
             alert.title,
             alert.message,
             alert.status.stringValue(),
-            alert.severity.stringValue());
+            alert.severity.stringValue(),
+            alert.createdAt,
+            alert.updatedAt
+        );
     }
 
     private List<AlertStatus> toStatuses(List<String> status) {
