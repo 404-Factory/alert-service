@@ -12,9 +12,9 @@ dependencies {
     implementation("com.factory.common:inbox-jpa:1.0.7")   // @InboxProcessed
 
     // platform BOM
-    implementation(platform("com.factory:platform:1.0.7"))
-    annotationProcessor(platform("com.factory:platform:1.0.7"))
-    testAnnotationProcessor(platform("com.factory:platform:1.0.7"))
+    implementation(platform("com.factory:platform:1.0.5"))
+    annotationProcessor(platform("com.factory:platform:1.0.5"))
+    testAnnotationProcessor(platform("com.factory:platform:1.0.5"))
 
     // Spring Web
     implementation("org.springframework.boot:spring-boot-starter-web")
