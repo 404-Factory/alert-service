@@ -1,14 +1,14 @@
 spring:
   application:
-    name: notification-service
+    name: alert-service
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:notification_db}?sslMode=trust&useUnicode=true&characterEncoding=utf8mb4&connectionCollation=utf8mb4_unicode_ci&serverTimezone=Asia/Seoul
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:alert_db}?sslMode=trust&useUnicode=true&characterEncoding=utf8mb4&connectionCollation=utf8mb4_unicode_ci&serverTimezone=Asia/Seoul
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:123456789}
     hikari:
-      pool-name: notification-hikari-pool
+      pool-name: alert-hikari-pool
       connection-test-query: SELECT 1
       maximum-pool-size: ${DB_MAX_POOL_SIZE:5}
       minimum-idle: ${DB_MIN_IDLE:2}
@@ -16,7 +16,7 @@ spring:
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     consumer:
-      group-id: notification-service
+      group-id: alert-service
       auto-offset-reset: latest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -26,6 +26,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+# 세트 A(envelope) 컨슈머 설정 — Debezium 이 envelope placement 로 body 에 완전한 Event 를 실어 보냄
+sigma:
+  event:
+    consumer:
+      topics: anomaly.AnomalyCreated
+      groupId: alert-service
+      subscription:
+        - AnomalyCreated
 
 server:
   port: 8084

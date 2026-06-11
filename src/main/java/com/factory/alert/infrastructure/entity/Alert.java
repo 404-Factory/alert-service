@@ -2,6 +2,7 @@ package com.factory.alert.infrastructure.entity;
 
 import com.factory.alert.infrastructure.enums.AlertSeverity;
 import com.factory.alert.infrastructure.enums.AlertStatus;
+import com.factory.alert.kafka.dto.AnomalyCreatedPayload;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -45,6 +46,19 @@ public class Alert extends BaseEntity {
     @Column(name = "severity", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private AlertSeverity severity;
+
+    public static Alert create(AnomalyCreatedPayload payload) {
+        Alert alert = new Alert();
+        alert.anomalyId = payload.getAnomalyLogId();
+        alert.equipmentId = payload.getEquipmentId() != null
+            ? String.valueOf(payload.getEquipmentId()) : null;
+        alert.title = "[" + payload.getSeverity() + "] " + payload.getCauseRule() + " 이상 감지";
+        // TODO: alert-service 오너 확인 — message 표현 방식 (현재는 설비명/파라미터 조합)
+        alert.message = payload.getEquipmentName() + " (" + payload.getRecipeParameter() + ")";
+        alert.status = AlertStatus.UNREAD;
+        alert.severity = AlertSeverity.fromCode(payload.getSeverity());
+        return alert;
+    }
 
     public void changeAlert(Long id, String status, String severity) {
         this.id = id != null ? id : this.id;
