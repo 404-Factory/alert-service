@@ -36,7 +36,10 @@ spec:
     transforms.outbox.table.field.event.id: "id"
     transforms.outbox.table.field.event.key: "aggregate_id"
     transforms.outbox.table.field.event.payload: "payload"
-    transforms.outbox.table.fields.additional.placement: "event_type:header:eventType"
+    # 세트 A(envelope): 메타데이터 컬럼을 메시지 body(envelope)에 실어 완전한 Event<T> 로 재조립.
+    # payload 는 expand.json.payload=true 로 "payload" 키의 중첩 객체가 됨.
+    transforms.outbox.table.fields.additional.placement: "event_type:envelope:eventType,envelope_type:envelope:envelopeType,id:envelope:idempotencyKey,aggregate_type:envelope:aggregateType,aggregate_id:envelope:aggregateId,trace_id:envelope:traceId,timestamp:envelope:timestamp"
+    transforms.outbox.table.expand.json.payload: "true"
     transforms.outbox.route.by.field: event_type
     transforms.outbox.route.topic.replacement: alert.${routedByValue}
 
