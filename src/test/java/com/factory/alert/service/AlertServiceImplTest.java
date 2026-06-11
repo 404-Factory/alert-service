@@ -12,7 +12,6 @@ import com.factory.alert.infrastructure.entity.Alert;
 import com.factory.alert.infrastructure.enums.AlertSeverity;
 import com.factory.alert.infrastructure.enums.AlertStatus;
 import com.factory.alert.infrastructure.repository.AlertRepository;
-import com.factory.alert.mapper.AlertMapper;
 import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.Optional;
@@ -32,9 +31,6 @@ class AlertServiceImplTest {
 
     @Mock
     private AlertRepository alertRepository;
-
-    @Mock
-    private AlertMapper alertMapper;
 
     @InjectMocks
     private AlertServiceImpl alertService;
@@ -56,7 +52,7 @@ class AlertServiceImplTest {
 
         Page<AlertResponse> page = new PageImpl<>(List.of(response), pageable, 1);
 
-        when(alertRepository.findWithCondition("unread", "warning", pageable))
+        when(alertRepository.fetchAlertsWithCondition("unread", "warning", pageable))
             .thenReturn(page);
 
         Page<AlertResponse> result = alertService.getAllAlerts("unread", "warning", pageable);
@@ -66,7 +62,7 @@ class AlertServiceImplTest {
         assertThat(result.getContent().get(0).getStatus()).isEqualTo("UNREAD");
         assertThat(result.getContent().get(0).getSeverity()).isEqualTo("WARNING");
 
-        verify(alertRepository).findWithCondition("unread", "warning", pageable);
+        verify(alertRepository).fetchAlertsWithCondition("unread", "warning", pageable);
     }
 
     @Test
@@ -92,8 +88,7 @@ class AlertServiceImplTest {
             .severity("WARNING")
             .build();
 
-        when(alertRepository.findById(1L)).thenReturn(Optional.of(alert));
-        when(alertMapper.toAlertResponse(alert)).thenReturn(response);
+        when(alertRepository.fetchAlert(1L)).thenReturn(response);
 
         AlertResponse result = alertService.getAlert(1L);
 
@@ -105,19 +100,18 @@ class AlertServiceImplTest {
         assertThat(result.getStatus()).isEqualTo("UNREAD");
         assertThat(result.getSeverity()).isEqualTo("WARNING");
 
-        verify(alertRepository).findById(1L);
-        verify(alertMapper).toAlertResponse(alert);
+        verify(alertRepository).fetchAlert(1L);
     }
 
     @Test
     @DisplayName("존재하지 않는 알림 단건 조회 시 예외가 발생한다")
     void getAlert_notFound() {
-        when(alertRepository.findById(1L)).thenReturn(Optional.empty());
+        when(alertRepository.fetchAlert(1L)).thenReturn(null);
 
         assertThatThrownBy(() -> alertService.getAlert(1L))
             .isInstanceOf(AlertException.class);
 
-        verify(alertRepository).findById(1L);
+        verify(alertRepository).fetchAlert(1L);
     }
 
     @Test
@@ -125,7 +119,7 @@ class AlertServiceImplTest {
     void getCount() {
         CountResponse response = new CountResponse(10L, 7L, 3L);
 
-        when(alertRepository.getCount(List.of("unread"))).thenReturn(response);
+        when(alertRepository.fetchCountWithStatus(List.of("unread"))).thenReturn(response);
 
         CountResponse result = alertService.getCount(List.of("unread"));
 
@@ -133,7 +127,7 @@ class AlertServiceImplTest {
         assertThat(result.getWarningCount()).isEqualTo(7L);
         assertThat(result.getCriticalCount()).isEqualTo(3L);
 
-        verify(alertRepository).getCount(List.of("unread"));
+        verify(alertRepository).fetchCountWithStatus(List.of("unread"));
     }
 
     @Test

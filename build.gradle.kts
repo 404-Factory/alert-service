@@ -55,11 +55,6 @@ dependencies {
     // Lombok
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok-mapstruct-binding")
-
-    // MapStruct
-    implementation("org.mapstruct:mapstruct")
-    annotationProcessor("org.mapstruct:mapstruct-processor")
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
