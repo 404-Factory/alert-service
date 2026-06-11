@@ -8,10 +8,12 @@ import org.springframework.data.domain.Pageable;
 
 public interface AlertRepositorySupport {
 
-    Page<AlertResponse> findWithCondition(String status, String severity,
+    Page<AlertResponse> fetchAlertsWithCondition(String status, String severity,
         Pageable pageable);
 
-    CountResponse getCount(List<String> status);
+    AlertResponse fetchAlert(Long id);
+
+    CountResponse fetchCountWithStatus(List<String> status);
 
     long bulkUpdateAll(String status, String severity);
 }

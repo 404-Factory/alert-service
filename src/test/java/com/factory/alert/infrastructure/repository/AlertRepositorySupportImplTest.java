@@ -61,7 +61,7 @@ class AlertRepositorySupportImplTest {
         PageRequest pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "id"));
 
         Page<AlertResponse> result =
-            alertRepositorySupport.findWithCondition("unread", "warning", pageable);
+            alertRepositorySupport.fetchAlertsWithCondition("unread", "warning", pageable);
 
         assertThat(result.getTotalElements()).isEqualTo(1);
         assertThat(result.getContent()).hasSize(1);
@@ -101,7 +101,7 @@ class AlertRepositorySupportImplTest {
         );
         flushAndClear();
 
-        CountResponse result = alertRepositorySupport.getCount(List.of("unread"));
+        CountResponse result = alertRepositorySupport.fetchCountWithStatus(List.of("unread"));
 
         assertThat(result.getTotalCount()).isEqualTo(2L);
         assertThat(result.getWarningCount()).isEqualTo(1L);
