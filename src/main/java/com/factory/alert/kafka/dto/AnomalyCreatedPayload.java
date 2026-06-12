@@ -1,4 +1,4 @@
-package com.factory.alert.event.payload.consumer;
+package com.factory.alert.kafka.dto;
 
 import com.factory.common.event.domain.EventPayload;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -19,11 +19,9 @@ import lombok.NoArgsConstructor;
 public class AnomalyCreatedPayload implements EventPayload {
 
     private Long anomalyLogId;
-    private Long equipmentId;
-    private String equipmentName;
+    private String equipmentId;
     private String recipeParameter;
     private String severity;
     private Instant occurredTime;
     private String causeRule;
-    private String detectionReason;
 }
