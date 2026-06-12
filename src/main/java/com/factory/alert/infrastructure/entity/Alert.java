@@ -50,11 +50,9 @@ public class Alert extends BaseEntity {
     public static Alert create(AnomalyCreatedPayload payload) {
         Alert alert = new Alert();
         alert.anomalyId = payload.getAnomalyLogId();
-        alert.equipmentId = payload.getEquipmentId() != null
-            ? String.valueOf(payload.getEquipmentId()) : null;
+        alert.equipmentId = payload.getEquipmentId();
         alert.title = "[" + payload.getSeverity() + "] " + payload.getCauseRule() + " 이상 감지";
-        // TODO: alert-service 오너 확인 — message 표현 방식 (현재는 설비명/파라미터 조합)
-        alert.message = payload.getEquipmentName() + " (" + payload.getRecipeParameter() + ")";
+        alert.message = payload.getEquipmentId() + " (" + payload.getRecipeParameter() + ")";
         alert.status = AlertStatus.UNREAD;
         alert.severity = AlertSeverity.fromCode(payload.getSeverity());
         return alert;
