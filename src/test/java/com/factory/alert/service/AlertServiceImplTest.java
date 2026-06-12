@@ -43,7 +43,7 @@ class AlertServiceImplTest {
         AlertResponse response = AlertResponse.builder()
             .id(1L)
             .anomalyId(10L)
-            .equipmentId(1L)
+            .equipmentId("EQ-001")
             .title("온도 이상")
             .message("온도가 임계치를 초과했습니다.")
             .status("UNREAD")
@@ -71,7 +71,7 @@ class AlertServiceImplTest {
         Alert alert = createAlert(
             1L,
             10L,
-            1L,
+            "EQ-001",
             "온도 이상",
             "온도가 임계치를 초과했습니다.",
             AlertStatus.UNREAD,
@@ -81,7 +81,7 @@ class AlertServiceImplTest {
         AlertResponse response = AlertResponse.builder()
             .id(1L)
             .anomalyId(10L)
-            .equipmentId(1L)
+            .equipmentId("EQ-001")
             .title("온도 이상")
             .message("온도가 임계치를 초과했습니다.")
             .status("UNREAD")
@@ -94,7 +94,7 @@ class AlertServiceImplTest {
 
         assertThat(result.getId()).isEqualTo(1L);
         assertThat(result.getAnomalyId()).isEqualTo(10L);
-        assertThat(result.getEquipmentId()).isEqualTo(1L);
+        assertThat(result.getEquipmentId()).isEqualTo("EQ-001");
         assertThat(result.getTitle()).isEqualTo("온도 이상");
         assertThat(result.getMessage()).isEqualTo("온도가 임계치를 초과했습니다.");
         assertThat(result.getStatus()).isEqualTo("UNREAD");
@@ -146,7 +146,7 @@ class AlertServiceImplTest {
         Alert alert = createAlert(
             1L,
             10L,
-            1L,
+            "EQ-001",
             "온도 이상",
             "온도가 임계치를 초과했습니다.",
             AlertStatus.UNREAD,
@@ -178,7 +178,7 @@ class AlertServiceImplTest {
     private Alert createAlert(
         Long id,
         Long anomalyId,
-        Long equipmentId,
+        String equipmentId,
         String title,
         String message,
         AlertStatus status,

@@ -1,8 +1,8 @@
-package com.factory.alert.infrastructure.kafka.handler;
+package com.factory.alert.kafka.consumer;
 
 import com.factory.alert.infrastructure.entity.Alert;
 import com.factory.alert.infrastructure.repository.AlertRepository;
-import com.factory.alert.event.payload.consumer.AnomalyCreatedPayload;
+import com.factory.alert.kafka.dto.AnomalyCreatedPayload;
 import com.factory.common.event.domain.Event;
 import com.factory.common.inbox.jpa.aop.InboxProcessed;
 import com.factory.common.kafka.support.EventHandler;
