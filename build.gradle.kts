@@ -1,6 +1,7 @@
 plugins {
     id("com.factory.spring-application-conventions")
     id("com.factory.maven-consumer-conventions")
+    jacoco
 }
 
 version = "1.0.0"
