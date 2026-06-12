@@ -11,7 +11,7 @@ public class AlertResponse {
 
     private final Long id;
     private final Long anomalyId;
-    private final String equipmentId;
+    private final Long equipmentId;
     private final String title;
     private final String message;
     private final String status;
@@ -20,7 +20,7 @@ public class AlertResponse {
     private final Instant updatedAt;
 
     @Builder
-    public AlertResponse(Long id, Long anomalyId, String equipmentId, String title, String message,
+    public AlertResponse(Long id, Long anomalyId, Long equipmentId, String title, String message,
         String status, String severity, Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.anomalyId = anomalyId;

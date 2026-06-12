@@ -1,4 +1,9 @@
 spring:
+  autoconfigure:
+    exclude:
+      - com.factory.common.outbox.jpa.autoconfigure.OutboxJpaAutoConfiguration
+      - com.factory.common.inbox.jpa.autoconfigure.InboxJpaAutoConfiguration
+      - com.factory.common.kafka.autoconfigure.SigmaKafkaAutoConfiguration
   datasource:
     url: jdbc:h2:mem:alert-test-db;MODE=MariaDB;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
