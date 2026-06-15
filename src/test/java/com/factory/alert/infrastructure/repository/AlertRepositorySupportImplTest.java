@@ -42,7 +42,7 @@ class AlertRepositorySupportImplTest {
     void findWithCondition() {
         persistAlert(
             10L,
-            "EQ-001",
+            1L,
             "온도 이상",
             "온도가 임계치를 초과했습니다.",
             AlertStatus.UNREAD,
@@ -50,7 +50,7 @@ class AlertRepositorySupportImplTest {
         );
         persistAlert(
             11L,
-            "EQ-002",
+            2L,
             "압력 이상",
             "압력이 임계치를 초과했습니다.",
             AlertStatus.READ,
@@ -61,12 +61,12 @@ class AlertRepositorySupportImplTest {
         PageRequest pageable = PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "id"));
 
         Page<AlertResponse> result =
-            alertRepositorySupport.findWithCondition("unread", "warning", pageable);
+            alertRepositorySupport.fetchAlertsWithCondition("unread", "warning", pageable);
 
         assertThat(result.getTotalElements()).isEqualTo(1);
         assertThat(result.getContent()).hasSize(1);
         assertThat(result.getContent().get(0).getAnomalyId()).isEqualTo(10L);
-        assertThat(result.getContent().get(0).getEquipmentId()).isEqualTo("EQ-001");
+        assertThat(result.getContent().get(0).getEquipmentId()).isEqualTo(1L);
         assertThat(result.getContent().get(0).getTitle()).isEqualTo("온도 이상");
         assertThat(result.getContent().get(0).getStatus()).isEqualTo("UNREAD");
         assertThat(result.getContent().get(0).getSeverity()).isEqualTo("WARNING");
@@ -77,7 +77,7 @@ class AlertRepositorySupportImplTest {
     void getCount() {
         persistAlert(
             10L,
-            "EQ-001",
+            1L,
             "온도 이상",
             "온도가 임계치를 초과했습니다.",
             AlertStatus.UNREAD,
@@ -85,7 +85,7 @@ class AlertRepositorySupportImplTest {
         );
         persistAlert(
             11L,
-            "EQ-002",
+            2L,
             "압력 이상",
             "압력이 임계치를 초과했습니다.",
             AlertStatus.UNREAD,
@@ -93,7 +93,7 @@ class AlertRepositorySupportImplTest {
         );
         persistAlert(
             12L,
-            "EQ-003",
+            3L,
             "진동 이상",
             "진동이 임계치를 초과했습니다.",
             AlertStatus.READ,
@@ -101,7 +101,7 @@ class AlertRepositorySupportImplTest {
         );
         flushAndClear();
 
-        CountResponse result = alertRepositorySupport.getCount(List.of("unread"));
+        CountResponse result = alertRepositorySupport.fetchCountWithStatus(List.of("unread"));
 
         assertThat(result.getTotalCount()).isEqualTo(2L);
         assertThat(result.getWarningCount()).isEqualTo(1L);
@@ -113,7 +113,7 @@ class AlertRepositorySupportImplTest {
     void bulkUpdateAll_status() {
         persistAlert(
             10L,
-            "EQ-001",
+            1L,
             "온도 이상",
             "온도가 임계치를 초과했습니다.",
             AlertStatus.UNREAD,
@@ -121,7 +121,7 @@ class AlertRepositorySupportImplTest {
         );
         persistAlert(
             11L,
-            "EQ-002",
+            2L,
             "압력 이상",
             "압력이 임계치를 초과했습니다.",
             AlertStatus.UNREAD,
@@ -144,7 +144,7 @@ class AlertRepositorySupportImplTest {
 
     private void persistAlert(
         Long anomalyId,
-        String equipmentId,
+        Long equipmentId,
         String title,
         String message,
         AlertStatus status,
