@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
  * Payload of the {@code AnomalyCreated} event produced by anomaly-service.
  *
  * <p>
- * Field names must match the anomaly-service payload contract. {@code anomalyLogId} is the id of the
+ * Field names must match the anomaly-service payload contract. {@code anomalyId} is the id of the
  * persisted anomaly log; anomaly-service must include it in the published payload.
  */
 @Getter
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AnomalyCreatedPayload implements EventPayload {
 
-    private Long anomalyLogId;
+    private Long anomalyId;
     private Long equipmentId;
     private String equipmentName;
     private String recipeParameter;

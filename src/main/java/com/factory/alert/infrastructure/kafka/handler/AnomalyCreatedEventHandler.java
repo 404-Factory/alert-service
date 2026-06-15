@@ -30,13 +30,13 @@ public class AnomalyCreatedEventHandler implements EventHandler<AnomalyCreatedPa
         AnomalyCreatedPayload payload = event.getPayload();
 
         if ("CAUTION".equalsIgnoreCase(payload.getSeverity())) {
-            log.debug("Skipping CAUTION severity anomaly: anomalyLogId={}", payload.getAnomalyLogId());
+            log.debug("Skipping CAUTION severity anomaly: anomalyId={}", payload.getAnomalyId());
             return;
         }
 
         Alert alert = Alert.create(payload);
         alertRepository.save(alert);
-        log.info("Alert created: anomalyLogId={}, severity={}",
-            payload.getAnomalyLogId(), payload.getSeverity());
+        log.info("Alert created: anomalyId={}, severity={}",
+            payload.getAnomalyId(), payload.getSeverity());
     }
 }

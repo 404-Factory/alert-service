@@ -49,7 +49,7 @@ public class Alert extends BaseEntity {
 
     public static Alert create(AnomalyCreatedPayload payload) {
         Alert alert = new Alert();
-        alert.anomalyId = payload.getAnomalyLogId();
+        alert.anomalyId = payload.getAnomalyId();
         alert.equipmentId = payload.getEquipmentId();
         alert.title = "[" + payload.getSeverity() + "] " + payload.getRecipeParameter() + " - " + payload.getCauseRule() + " 이상 감지";
         alert.message = "[" + payload.getRecipeParameter() + "] " + payload.getDetectionReason();
