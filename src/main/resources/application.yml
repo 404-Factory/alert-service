@@ -2,7 +2,7 @@ spring:
   application:
     name: alert-service
   profiles:
-    active: local
+    active: dev
 
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
