@@ -8,9 +8,9 @@ version = "1.0.0"
 
 dependencies {
     // common modules
-    implementation("com.factory.common:contract:1.0.7")
-    implementation("com.factory.common:kafka:1.0.7")       // CommonKafkaConsumer / EventDispatcher / EventHandler
-    implementation("com.factory.common:inbox-jpa:1.0.7")   // @InboxProcessed
+    implementation("com.factory.common:contract:1.1.0")
+    implementation("com.factory.common:kafka:1.1.0")       // CommonKafkaConsumer / EventDispatcher / EventHandler
+    implementation("com.factory.common:inbox-jpa:1.1.0")   // @InboxProcessed
 
     // platform BOM
     implementation(platform("com.factory:platform:1.0.5"))
@@ -61,11 +61,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testRuntimeOnly("com.h2database:h2")
-    testImplementation("com.factory.common:contract:1.0.7")
+    testImplementation("com.factory.common:contract:1.1.0")
 
     // Dotenv
     implementation("me.paulschwarz:spring-dotenv:4.0.0")
-
 }
 
 tasks.named<Test>("test") {
