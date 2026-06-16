@@ -23,5 +23,11 @@ spring:
     listener:
       ack-mode: record
 
+sigma:
+  event:
+    consumer:
+      topics: Anomaly.event
+      groupId: notification-service
+
 server:
   port: 8080
