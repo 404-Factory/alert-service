@@ -7,7 +7,7 @@ version = "1.0.0"
 
 dependencies {
     // common modules
-    implementation("com.factory.common:contract:1.0.1")
+    implementation("com.factory.common:contract:1.0.8")
 
     // platform BOM
     implementation(platform("com.factory:platform:1.0.5"))
@@ -55,7 +55,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testRuntimeOnly("com.h2database:h2")
-    testImplementation("com.factory.common:contract:1.0.1")
+    testImplementation("com.factory.common:contract:1.0.8")
 }
 
 tasks.named<Test>("test") {
