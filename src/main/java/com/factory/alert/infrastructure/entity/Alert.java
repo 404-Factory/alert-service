@@ -2,6 +2,7 @@ package com.factory.alert.infrastructure.entity;
 
 import com.factory.alert.infrastructure.enums.AlertSeverity;
 import com.factory.alert.infrastructure.enums.AlertStatus;
+import com.factory.alert.event.payload.consumer.AnomalyCreatedPayload;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -33,8 +34,8 @@ public class Alert extends BaseEntity {
 
     // 필요한지 잘 모르겠네..? 일단 보류, front 요청사항 따라 필요할 수도?
     // nullable false 여야함? 체크하자
-    @Column(name = "equipment_id", length = 100)
-    private String equipmentId;
+    @Column(name = "equipment_id")
+    private Long equipmentId;
 
     @Column(name = "title", length = 200, nullable = false)
     private String title;
@@ -49,6 +50,17 @@ public class Alert extends BaseEntity {
     @Column(name = "severity", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private AlertSeverity severity;
+
+    public static Alert create(AnomalyCreatedPayload payload) {
+        Alert alert = new Alert();
+        alert.anomalyId = payload.getAnomalyId();
+        alert.equipmentId = payload.getEquipmentId();
+        alert.title = "[" + payload.getSeverity() + "] " + payload.getRecipeParameter() + " - " + payload.getCauseRule() + " 이상 감지";
+        alert.message = "[" + payload.getRecipeParameter() + "] " + payload.getDetectionReason();
+        alert.status = AlertStatus.UNREAD;
+        alert.severity = AlertSeverity.fromCode(payload.getSeverity());
+        return alert;
+    }
 
     public void changeAlert(Long id, String status, String severity) {
         this.id = id != null ? id : this.id;
